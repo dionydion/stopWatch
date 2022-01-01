@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Simple setInterval clock</title>
+    <style>
+      p {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="clock"></p>
+    <input class="start-btn" type="button" value="start" />
+    <input class="stop-btn" type="button" value="stop" />
+    <input class="reset-btn" type="button" value="reset" />
+    <script>
+      //   var displayTime = function(){
+      //       let date = new Date();
+      //       let time = date.toLocaleTimeString();
+      //       document.querySelector('.clock').textContent = time
+      //   }
+      //   displayTime();
+      //   const createClock = setInterval(displayTime, 1000);
+      
+
+      //store references of buttons into variables
+      startBtn = document.querySelector(".start-btn");
+      stopBtn = document.querySelector(".stop-btn");
+      resetBtn = document.querySelector(".reset-btn");
+
+      // create a function that outputs the time difference between time when start button is pressed and current time
+      let startTime = Date.now();
+      var start = function () {
+        let dateNow = Date.now();
+        let timeElapsedInSeconds = (dateNow - startTime) / 1000;
+        let hours = Math.floor(timeElapsedInSeconds / 3600);
+        let minutes = Math.floor((timeElapsedInSeconds % 3600) / 60);
+        let seconds = Math.floor((timeElapsedInSeconds % 3600) % 60);
+
+        if (hours < 10) {
+          hours = `0` + hours;
+        }
+
+        if (minutes < 10) {
+          minutes = `0` + minutes;
+        }
+
+        if (seconds < 10) {
+          seconds = `0` + seconds;
+        }
+        document.querySelector(
+          ".clock"
+        ).textContent = `${hours}:${minutes}:${seconds}`;
+      };
+
+      // declare stopWatch variable to store interval when it is active
+      let stopWatch
+      // when start button is pressed, start running start() once per sound using setInterval()
+      startBtn.addEventListener("click", ()=>{
+            stopWatch= setInterval(start,1000)
+            startBtn.disabled = true
+      });
+      // when stop button is pressed, stop the intervals from continueing.
+      stopBtn.addEventListener("click",()=>{
+          clearInterval(stopWatch);
+          stopBtn.disabled = true
+      })
+      // when reset button is pressed, the time restarts back to zero
+      resetBtn.addEventListener("click",()=>{
+          clearInterval(stopWatch)
+          startBtn.disabled = false;
+          stopBtn.disabled = false;
+          startTime=Date.now()
+          start()
+      })
+      //display the time immediately when the page is loaded
+      start()
+    </script>
+  </body>
+</html>
