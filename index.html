@@ -58,6 +58,7 @@
       let stopWatch
       // when start button is pressed, start running start() once per sound using setInterval()
       startBtn.addEventListener("click", ()=>{
+            startTime = Date.now()
             stopWatch= setInterval(start,1000)
             startBtn.disabled = true
       });
